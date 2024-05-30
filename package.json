@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.9.2",
+    "@sly-cli/sly": "^1.10.0",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
@@ -36,9 +37,11 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "remix-development-tools": "^4.1.6",
+    "remix-flat-routes": "^0.6.5",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.1.6",
     "vite": "^5.1.0",
+    "vite-plugin-icons-spritesheet": "^1.2.0",
     "vite-tsconfig-paths": "^4.2.1"
   },
   "engines": {
