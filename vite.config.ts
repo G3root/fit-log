@@ -36,7 +36,9 @@ export default defineConfig({
     tsconfigPaths(),
     iconsSpritesheet({
       inputDir: "app/icons",
+      typesOutputFile: "app/icons.ts",
       outputDir: "public/icons",
+      withTypes: true,
     }),
   ],
 });
