@@ -94,8 +94,8 @@ importers:
         specifier: ^5.1.0
         version: 5.2.11(@types/node@20.12.12)
       vite-plugin-icons-spritesheet:
-        specifier: ^1.2.0
-        version: 1.2.0(@types/node@20.12.12)
+        specifier: ^1.2.1
+        version: 1.2.1(@types/node@20.12.12)
       vite-tsconfig-paths:
         specifier: ^4.2.1
         version: 4.3.2(typescript@5.4.5)(vite@5.2.11(@types/node@20.12.12))
@@ -4214,8 +4214,8 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
-  vite-plugin-icons-spritesheet@1.2.0:
-    resolution: {integrity: sha512-1KqJd3Bqfu6T7iCZAAQ31EpYnatm7E4QIYvEDIxAgLTxutlnhIomKeA9IhegWAKuqJFmH0Oiiwrr62CqZbORcQ==}
+  vite-plugin-icons-spritesheet@1.2.1:
+    resolution: {integrity: sha512-DO/sr2de50WeUtTGDNWgMa+IGQDjcN9lVm0ePvGyA4cVV1aNz8bqtsvz3fHkTn4Sy2cP1ag3KFIda3PUxfGwpg==}
 
   vite-tsconfig-paths@4.3.2:
     resolution: {integrity: sha512-0Vd/a6po6Q+86rPlntHye7F31zA2URZMbH8M3saAZ/xR9QoGN/L21bxEGfXdWmFdNkqPpRdxFT7nmNe12e9/uA==}
@@ -9059,7 +9059,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-icons-spritesheet@1.2.0(@types/node@20.12.12):
+  vite-plugin-icons-spritesheet@1.2.1(@types/node@20.12.12):
     dependencies:
       chalk: 4.1.2
       glob: 10.4.1
