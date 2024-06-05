@@ -4,9 +4,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useHref,
+  useNavigate,
 } from "@remix-run/react";
 
 import "~/styles/tailwind.css";
+
+import { RouterProvider } from "react-aria-components";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -27,5 +31,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const navigate = useNavigate();
+  return (
+    <RouterProvider navigate={navigate} useHref={useHref}>
+      <Outlet />
+    </RouterProvider>
+  );
 }
