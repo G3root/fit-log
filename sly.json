@@ -6,6 +6,12 @@
       "directory": "./app/icons",
       "postinstall": [],
       "transformers": []
+    },
+    {
+      "name": "jolly-ui",
+      "directory": "./app/components",
+      "postinstall": [],
+      "transformers": []
     }
   ]
 }
