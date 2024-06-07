@@ -9,6 +9,17 @@ export const stopWatchMachine = setup({
       return () => clearInterval(interval);
     }),
   },
+
+  types: {
+    context: {} as {
+      elapsed: number;
+    },
+    events: {} as
+      | { type: "start" }
+      | { type: "reset" }
+      | { type: "TICK" }
+      | { type: "stop" },
+  },
 }).createMachine({
   id: "stop-watch",
   initial: "stopped",
