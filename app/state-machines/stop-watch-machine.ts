@@ -13,18 +13,21 @@ export const stopWatchMachine = setup({
   types: {
     context: {} as {
       elapsed: number;
+      laps: { startTime: number; elapsed: number }[];
     },
     events: {} as
       | { type: "start" }
       | { type: "reset" }
       | { type: "TICK" }
-      | { type: "stop" },
+      | { type: "stop" }
+      | { type: "LAP" },
   },
 }).createMachine({
   id: "stop-watch",
   initial: "stopped",
   context: {
     elapsed: 0,
+    laps: [],
   },
   states: {
     stopped: {
@@ -43,6 +46,24 @@ export const stopWatchMachine = setup({
           }),
         },
         stop: "stopped",
+        LAP: {
+          actions: assign({
+            laps: ({ context }) => {
+              const laps = [...context.laps];
+              const latestLap = laps[laps.length - 1] ?? {
+                startTime: 0,
+                elapsedTime: 0,
+              };
+
+              laps.push({
+                elapsed: context.elapsed - latestLap.startTime,
+                startTime: context.elapsed,
+              });
+
+              return laps;
+            },
+          }),
+        },
       },
     },
   },
@@ -50,6 +71,7 @@ export const stopWatchMachine = setup({
     reset: {
       actions: assign({
         elapsed: 0,
+        laps: [],
       }),
       target: ".stopped",
     },
