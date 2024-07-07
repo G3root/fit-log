@@ -5,3 +5,5 @@ node_modules
 .env
 
 /public/icons/sprite.svg
+
+.content-collections

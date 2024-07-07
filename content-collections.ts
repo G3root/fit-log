@@ -8,9 +8,11 @@ const exercises = defineCollection({
     name: z.string(),
   }),
   transform: (doc) => {
+    const slug = doc.name.toLowerCase().replace(/ /g, "-");
     return {
       ...doc,
-      id: doc._meta.fileName,
+      id: slug,
+      slug,
     };
   },
 });
