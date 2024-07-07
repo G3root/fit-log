@@ -4,6 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { remixDevTools } from "remix-development-tools";
 import { iconsSpritesheet } from "vite-plugin-icons-spritesheet";
 import { flatRoutes } from "remix-flat-routes";
+import contentCollections from "@content-collections/remix-vite";
 
 export default defineConfig({
   plugins: [
@@ -40,5 +41,6 @@ export default defineConfig({
       outputDir: "public/icons",
       withTypes: true,
     }),
+    contentCollections(),
   ],
 });

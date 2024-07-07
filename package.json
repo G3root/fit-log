@@ -27,6 +27,8 @@
     "xstate": "^5.13.1"
   },
   "devDependencies": {
+    "@content-collections/core": "^0.6.0",
+    "@content-collections/remix-vite": "^0.1.1",
     "@remix-run/dev": "^2.9.2",
     "@sly-cli/sly": "^1.10.0",
     "@types/react": "^18.2.20",
