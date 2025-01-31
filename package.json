@@ -12,7 +12,7 @@
     "fmt": "pnpm biome format . --write && pnpm biome check . --write"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "^1.9.4",
     "@tanstack/router-plugin": "^1.98.6",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
@@ -20,11 +20,21 @@
     "vite": "^6.0.3"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.1",
+    "@radix-ui/react-scroll-area": "^1.2.2",
+    "@radix-ui/react-slot": "^1.1.1",
     "@tailwindcss/vite": "^4.0.1",
     "@tanstack/react-router": "^1.98.4",
     "@tanstack/router-devtools": "^1.98.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwindcss": "^4.0.1"
+    "react-hook-form": "^7.54.2",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss": "^4.0.1",
+    "tailwindcss-animate": "^1.0.7",
+    "valibot": "1.0.0-beta.14",
+    "vaul": "^1.1.2"
   }
 }
