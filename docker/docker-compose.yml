@@ -24,7 +24,7 @@ services:
       -c hot_standby_feedback=on
     volumes:
       - zstart_pgdata:/var/lib/postgresql/data
-      - ./:/docker-entrypoint-initdb.d
+      - ./init_upstream:/docker-entrypoint-initdb.d
 
 volumes:
   zstart_pgdata:

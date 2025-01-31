@@ -15,6 +15,138 @@
             "type": "string",
             "optional": false,
             "customType": null
+          },
+          "modified": {
+            "type": "number",
+            "optional": false,
+            "customType": null
+          },
+          "created": {
+            "type": "number",
+            "optional": false,
+            "customType": null
+          }
+        },
+        "primaryKey": [
+          "id"
+        ]
+      },
+      "workoutExercise": {
+        "name": "workoutExercise",
+        "columns": {
+          "id": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "workoutID": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "exerciseID": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          }
+        },
+        "primaryKey": [
+          "id"
+        ]
+      },
+      "workout": {
+        "name": "workout",
+        "columns": {
+          "id": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "name": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "notes": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "creatorID": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "modified": {
+            "type": "number",
+            "optional": false,
+            "customType": null
+          },
+          "created": {
+            "type": "number",
+            "optional": false,
+            "customType": null
+          }
+        },
+        "primaryKey": [
+          "id"
+        ]
+      },
+      "exerciseSet": {
+        "name": "exerciseSet",
+        "columns": {
+          "id": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "reps": {
+            "type": "number",
+            "optional": true,
+            "customType": null
+          },
+          "weight": {
+            "type": "number",
+            "optional": true,
+            "customType": null
+          },
+          "workoutExerciseID": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "created": {
+            "type": "number",
+            "optional": false,
+            "customType": null
+          }
+        },
+        "primaryKey": [
+          "id"
+        ]
+      },
+      "user": {
+        "name": "user",
+        "columns": {
+          "id": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "plan": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "modified": {
+            "type": "number",
+            "optional": false,
+            "customType": null
+          },
+          "created": {
+            "type": "number",
+            "optional": false,
+            "customType": null
           }
         },
         "primaryKey": [
@@ -22,6 +154,57 @@
         ]
       }
     },
-    "relationships": {}
+    "relationships": {
+      "workout": {
+        "labels": [
+          {
+            "sourceField": [
+              "id"
+            ],
+            "destField": [
+              "workoutID"
+            ],
+            "destSchema": "workoutExercise",
+            "cardinality": "many"
+          },
+          {
+            "sourceField": [
+              "exerciseID"
+            ],
+            "destField": [
+              "id"
+            ],
+            "destSchema": "exercise",
+            "cardinality": "many"
+          }
+        ],
+        "creator": [
+          {
+            "sourceField": [
+              "creatorID"
+            ],
+            "destField": [
+              "id"
+            ],
+            "destSchema": "user",
+            "cardinality": "one"
+          }
+        ]
+      },
+      "workoutExercise": {
+        "createdIssues": [
+          {
+            "sourceField": [
+              "id"
+            ],
+            "destField": [
+              "workoutExerciseID"
+            ],
+            "destSchema": "exerciseSet",
+            "cardinality": "many"
+          }
+        ]
+      }
+    }
   }
 }
