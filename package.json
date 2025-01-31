@@ -6,6 +6,10 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "dev": "vite --port=3001",
+    "dev:zero-cache": "zero-cache-dev -p src/schema.ts",
+    "dev:db-up": "docker compose --env-file .env -f ./docker/docker-compose.yml up",
+    "dev:db-down": "docker compose --env-file .env -f ./docker/docker-compose.yml down",
+    "dev:clean": "source .env && docker volume rm -f docker_zstart_pgdata && rm -rf \"${ZERO_REPLICA_FILE}\"*",
     "build": "vite build",
     "serve": "vite preview",
     "start": "vite",
@@ -23,6 +27,7 @@
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-scroll-area": "^1.2.2",
     "@radix-ui/react-slot": "^1.1.1",
+    "@rocicorp/zero": "^0.12.2025012501",
     "@tailwindcss/vite": "^4.0.1",
     "@tanstack/react-router": "^1.98.4",
     "@tanstack/router-devtools": "^1.98.4",
