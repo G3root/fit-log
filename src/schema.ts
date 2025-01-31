@@ -1,4 +1,10 @@
-import { type Row, createSchema, string, table } from '@rocicorp/zero'
+import {
+	type Row,
+	createSchema,
+	definePermissions,
+	string,
+	table,
+} from '@rocicorp/zero'
 
 const exercise = table('exercise')
 	.columns({
@@ -9,6 +15,14 @@ const exercise = table('exercise')
 
 export const schema = createSchema(1, {
 	tables: [exercise],
+})
+
+type AuthData = {
+	sub: string | null
+}
+
+export const permissions = definePermissions<AuthData, Schema>(schema, () => {
+	return {}
 })
 
 export type Schema = typeof schema

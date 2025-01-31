@@ -1,0 +1,27 @@
+{
+  "permissions": {},
+  "schema": {
+    "version": 1,
+    "tables": {
+      "exercise": {
+        "name": "exercise",
+        "columns": {
+          "id": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "name": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          }
+        },
+        "primaryKey": [
+          "id"
+        ]
+      }
+    },
+    "relationships": {}
+  }
+}
