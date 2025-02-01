@@ -11,28 +11,21 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
-import { Route as IndexImport } from './routes/index'
 import { Route as AppLayoutImport } from './routes/_app/_layout'
+import { Route as AppLayoutIndexImport } from './routes/_app/_layout/index'
 import { Route as AppLayoutExercisesImport } from './routes/_app/_layout/exercises'
 
 // Create/Update Routes
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const AppLayoutRoute = AppLayoutImport.update({
   id: '/_app/_layout',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AppLayoutIndexRoute = AppLayoutIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 
 const AppLayoutExercisesRoute = AppLayoutExercisesImport.update({
@@ -45,20 +38,6 @@ const AppLayoutExercisesRoute = AppLayoutExercisesImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
     '/_app/_layout': {
       id: '/_app/_layout'
       path: ''
@@ -73,6 +52,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutExercisesImport
       parentRoute: typeof AppLayoutImport
     }
+    '/_app/_layout/': {
+      id: '/_app/_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AppLayoutIndexImport
+      parentRoute: typeof AppLayoutImport
+    }
   }
 }
 
@@ -80,10 +66,12 @@ declare module '@tanstack/react-router' {
 
 interface AppLayoutRouteChildren {
   AppLayoutExercisesRoute: typeof AppLayoutExercisesRoute
+  AppLayoutIndexRoute: typeof AppLayoutIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppLayoutExercisesRoute: AppLayoutExercisesRoute,
+  AppLayoutIndexRoute: AppLayoutIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
@@ -91,45 +79,41 @@ const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
 )
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '': typeof AppLayoutRouteWithChildren
   '/exercises': typeof AppLayoutExercisesRoute
+  '/': typeof AppLayoutIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '': typeof AppLayoutRouteWithChildren
   '/exercises': typeof AppLayoutExercisesRoute
+  '/': typeof AppLayoutIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/_app/_layout': typeof AppLayoutRouteWithChildren
   '/_app/_layout/exercises': typeof AppLayoutExercisesRoute
+  '/_app/_layout/': typeof AppLayoutIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '' | '/exercises'
+  fullPaths: '' | '/exercises' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '' | '/exercises'
-  id: '__root__' | '/' | '/about' | '/_app/_layout' | '/_app/_layout/exercises'
+  to: '/exercises' | '/'
+  id:
+    | '__root__'
+    | '/_app/_layout'
+    | '/_app/_layout/exercises'
+    | '/_app/_layout/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
   AppLayoutRoute: AppLayoutRouteWithChildren,
 }
 
@@ -143,25 +127,22 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/about",
         "/_app/_layout"
       ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/about": {
-      "filePath": "about.tsx"
     },
     "/_app/_layout": {
       "filePath": "_app/_layout.tsx",
       "children": [
-        "/_app/_layout/exercises"
+        "/_app/_layout/exercises",
+        "/_app/_layout/"
       ]
     },
     "/_app/_layout/exercises": {
       "filePath": "_app/_layout/exercises.tsx",
+      "parent": "/_app/_layout"
+    },
+    "/_app/_layout/": {
+      "filePath": "_app/_layout/index.tsx",
       "parent": "/_app/_layout"
     }
   }
