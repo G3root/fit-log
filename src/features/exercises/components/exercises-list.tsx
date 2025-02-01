@@ -1,13 +1,12 @@
-import { useQuery, useZero } from '@rocicorp/zero/react'
-import type { Schema } from '~/schema'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { db } from '~/lib/db'
 
 export function ExercisesList() {
-	const z = useZero<Schema>()
-	const [allExercises] = useQuery(z.query.exercise)
+	const allExercises = useLiveQuery(() => db.exercises.toArray())
 
 	return (
 		<ul>
-			{allExercises.map((item) => (
+			{allExercises?.map((item) => (
 				<li key={item.id}> {item.name}</li>
 			))}
 		</ul>
