@@ -1,13 +1,30 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Button } from '~/components/ui/button'
+import { ScrollArea } from '~/components/ui/scroll-area'
 
 export const Route = createFileRoute('/_app/_layout/')({
-  component: HomeComponent,
+	component: HomeComponent,
 })
 
 function HomeComponent() {
-  return (
-    <div className="p-2 text-red-600">
-      <h3>Welcome Home!</h3>
-    </div>
-  )
+	return (
+		<>
+			<div className="grow">
+				<ScrollArea className="flex-1">
+					<main className="p-4 gap-6 grid md:grid-cols-2">
+						{/* Quick Start Section */}
+						<section>
+							<h2 className="text-2xl font-bold mb-4">Quick Start</h2>
+							<Button className="w-full">Start Empty Workout</Button>
+						</section>
+
+						<section>
+							<h2 className="text-2xl font-bold mb-4">Routines</h2>
+							<Button className="w-full">Add Routine</Button>
+						</section>
+					</main>
+				</ScrollArea>
+			</div>
+		</>
+	)
 }
