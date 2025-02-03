@@ -1,6 +1,6 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import ReactDOM from 'react-dom/client'
-import { ZeroProvider } from './components/zero-provider'
+import { LoginProvider } from './components/login-provider'
 import { routeTree } from './routeTree.gen'
 import './main.css'
 
@@ -23,8 +23,8 @@ const rootElement = document.getElementById('app')!
 if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement)
 	root.render(
-		<ZeroProvider>
+		<LoginProvider>
 			<RouterProvider router={router} />
-		</ZeroProvider>,
+		</LoginProvider>,
 	)
 }

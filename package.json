@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "dev": "vite --port=3000",
+    "dev": "vite --port=3001",
     "dev:zero-cache": "zero-cache-dev -p src/schema.ts",
     "dev:db-up": "docker compose --env-file .env -f ./docker/docker-compose.yml up",
     "dev:db-down": "docker compose --env-file .env -f ./docker/docker-compose.yml down",
@@ -18,12 +18,14 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@tanstack/router-plugin": "^1.98.6",
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.2",
     "vite": "^6.0.3"
   },
   "dependencies": {
+    "@hono/node-server": "^1.13.8",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-scroll-area": "^1.2.2",
@@ -36,6 +38,9 @@
     "clsx": "^2.1.1",
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",
+    "hono": "^4.6.20",
+    "jose": "^5.9.6",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.474.0",
     "nanoid": "^5.0.9",
     "react": "^19.0.0",
