@@ -1,103 +1,55 @@
 import {
-	type Row,
-	createSchema,
+	type Condition,
+	type ExpressionBuilder,
+	NOBODY_CAN,
 	definePermissions,
-	number,
-	relationships,
-	string,
-	table,
 } from '@rocicorp/zero'
+import { type Schema, schema } from '~/generated/zero/schema'
+import type { LoginState } from './lib/zero-setup'
 
-const user = table('user')
-	.columns({
-		id: string(),
-		plan: string(),
-		modified: number(),
-		created: number(),
-	})
-	.primaryKey('id')
+type TableName = keyof Schema['tables']
 
-const exercise = table('exercise')
-	.columns({
-		id: string(),
-		name: string(),
-		modified: number(),
-		created: number(),
-	})
-	.primaryKey('id')
+type AuthData = LoginState['decoded']
 
-const workout = table('workout')
-	.columns({
-		id: string(),
-		name: string().optional(),
-		notes: string().optional(),
-		creatorID: string(),
-		modified: number(),
-		created: number(),
-	})
-	.primaryKey('id')
+const permissions = definePermissions<AuthData, Schema>(schema, () => {
+	const userIsLoggedIn = (
+		authData: AuthData,
+		{ cmpLit }: ExpressionBuilder<Schema, TableName>,
+	) => cmpLit(authData.sub, 'IS NOT', null)
 
-const workoutExercise = table('workoutExercise')
-	.columns({
-		id: string(),
-		workoutID: string(),
-		exerciseID: string(),
-	})
-	.primaryKey('id')
+	const loggedInUserIsCreator = (
+		authData: AuthData,
+		eb: ExpressionBuilder<Schema, 'exercise'>,
+	) =>
+		eb.and(userIsLoggedIn(authData, eb), eb.cmp('creatorID', '=', authData.sub))
 
-const exerciseSet = table('exerciseSet')
-	.columns({
-		id: string(),
-		reps: number().optional(),
-		weight: number().optional(),
-		workoutExerciseID: string(),
-		created: number(),
-	})
-	.primaryKey('id')
-
-const workoutRelationships = relationships(workout, ({ many, one }) => ({
-	labels: many(
-		{
-			sourceField: ['id'],
-			destSchema: workoutExercise,
-			destField: ['workoutID'],
+	return {
+		user: {
+			// Only the authentication system can write to the user table.
+			row: {
+				insert: NOBODY_CAN,
+				update: {
+					preMutation: NOBODY_CAN,
+				},
+				delete: NOBODY_CAN,
+			},
 		},
-		{
-			sourceField: ['exerciseID'],
-			destSchema: exercise,
-			destField: ['id'],
+		exercise: {
+			row: {
+				insert: [
+					// prevents setting the creatorID of an issue to someone
+					// other than the user doing the creating
+					loggedInUserIsCreator,
+				],
+				update: {
+					preMutation: [loggedInUserIsCreator],
+					postMutation: [loggedInUserIsCreator],
+				},
+				delete: [loggedInUserIsCreator],
+				select: [loggedInUserIsCreator],
+			},
 		},
-	),
-	creator: one({
-		sourceField: ['creatorID'],
-		destField: ['id'],
-		destSchema: user,
-	}),
-}))
-
-const workoutExerciseRelationships = relationships(
-	workoutExercise,
-	({ many }) => ({
-		createdIssues: many({
-			sourceField: ['id'],
-			destField: ['workoutExerciseID'],
-			destSchema: exerciseSet,
-		}),
-	}),
-)
-
-export const schema = createSchema(1, {
-	tables: [exercise, workoutExercise, workout, exerciseSet, user],
-	relationships: [workoutRelationships, workoutExerciseRelationships],
+	}
 })
 
-type AuthData = {
-	sub: string | null
-}
-
-export const permissions = definePermissions<AuthData, Schema>(schema, () => {
-	return {}
-})
-
-export type Schema = typeof schema
-export type Exercise = Row<typeof schema.tables.exercise>
+export { schema, permissions, type Schema }

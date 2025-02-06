@@ -11,11 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
 import { Route as AppLayoutImport } from './routes/_app/_layout'
 import { Route as AppLayoutIndexImport } from './routes/_app/_layout/index'
 import { Route as AppLayoutExercisesImport } from './routes/_app/_layout/exercises'
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AppLayoutRoute = AppLayoutImport.update({
   id: '/_app/_layout',
@@ -38,6 +45,13 @@ const AppLayoutExercisesRoute = AppLayoutExercisesImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/_app/_layout': {
       id: '/_app/_layout'
       path: ''
@@ -79,18 +93,21 @@ const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
 )
 
 export interface FileRoutesByFullPath {
+  '/login': typeof LoginRoute
   '': typeof AppLayoutRouteWithChildren
   '/exercises': typeof AppLayoutExercisesRoute
   '/': typeof AppLayoutIndexRoute
 }
 
 export interface FileRoutesByTo {
+  '/login': typeof LoginRoute
   '/exercises': typeof AppLayoutExercisesRoute
   '/': typeof AppLayoutIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/login': typeof LoginRoute
   '/_app/_layout': typeof AppLayoutRouteWithChildren
   '/_app/_layout/exercises': typeof AppLayoutExercisesRoute
   '/_app/_layout/': typeof AppLayoutIndexRoute
@@ -98,11 +115,12 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/exercises' | '/'
+  fullPaths: '/login' | '' | '/exercises' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/exercises' | '/'
+  to: '/login' | '/exercises' | '/'
   id:
     | '__root__'
+    | '/login'
     | '/_app/_layout'
     | '/_app/_layout/exercises'
     | '/_app/_layout/'
@@ -110,10 +128,12 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  LoginRoute: typeof LoginRoute
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  LoginRoute: LoginRoute,
   AppLayoutRoute: AppLayoutRouteWithChildren,
 }
 
@@ -127,8 +147,12 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/login",
         "/_app/_layout"
       ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/_app/_layout": {
       "filePath": "_app/_layout.tsx",

@@ -13,7 +13,7 @@
 		"indentWidth": 2,
 		"lineEnding": "lf",
 		"lineWidth": 80,
-		"ignore": ["./src/routeTree.gen.ts"]
+		"ignore": ["./src/routeTree.gen.ts", "./src/generated/**"]
 	},
 	"organizeImports": {
 		"enabled": true
@@ -26,7 +26,7 @@
 				"useExhaustiveDependencies": "warn"
 			}
 		},
-		"ignore": ["./src/routeTree.gen.ts"]
+		"ignore": ["./src/routeTree.gen.ts", "./src/generated/**"]
 	},
 	"javascript": {
 		"formatter": {

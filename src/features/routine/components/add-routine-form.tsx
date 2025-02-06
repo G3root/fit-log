@@ -2,6 +2,7 @@ import { valibotResolver } from '@hookform/resolvers/valibot'
 import { nanoid } from 'nanoid'
 import { useForm } from 'react-hook-form'
 import * as v from 'valibot'
+import { Button } from '~/components/ui/button'
 import {
 	Form,
 	FormControl,
@@ -11,7 +12,6 @@ import {
 	FormMessage,
 } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
-import { useZero } from '~/hooks/use-zero'
 
 const FormSchema = v.object({
 	name: v.string(),
@@ -19,8 +19,7 @@ const FormSchema = v.object({
 
 type TFormSchema = v.InferOutput<typeof FormSchema>
 
-export function AddExerciseForm() {
-	const z = useZero()
+export function AddRoutineForm() {
 	const form = useForm<TFormSchema>({
 		resolver: valibotResolver(FormSchema),
 		defaultValues: {
@@ -30,18 +29,7 @@ export function AddExerciseForm() {
 
 	return (
 		<Form {...form}>
-			<form
-				id="add-exercise-form"
-				onSubmit={form.handleSubmit(async (data) => {
-					await z.mutate.exercise.insert({
-						id: nanoid(32),
-						name: data.name,
-						created: Date.now(),
-						modified: Date.now(),
-						creatorID: z.userID,
-					})
-				})}
-			>
+			<form className="grid items-start gap-4 px-4">
 				<FormField
 					control={form.control}
 					name="name"
@@ -56,6 +44,10 @@ export function AddExerciseForm() {
 						</FormItem>
 					)}
 				/>
+
+				<div>
+					<Button className="w-full">Add Exercise</Button>
+				</div>
 			</form>
 		</Form>
 	)

@@ -20,3 +20,5 @@ dist/
 # env files 
 .env*
 !.env.example
+
+src/generated/*

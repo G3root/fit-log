@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator zero {
+  provider      = "prisma-generator-zero"
+  schemaVersion = 1
+  output        = "../src/generated/zero"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("ZERO_UPSTREAM_DB")
+}
+
+model User {
+  id       String     @id
+  name     String?
+  githubID String?
+  plan     String     @default("free")
+  modified Float      @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+  created  Float      @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+  workouts Workout[]
+  Exercise Exercise[]
+
+  @@map("user")
+}
+
+model Exercise {
+  id               String            @id
+  name             String
+  creator          User              @relation(fields: [creatorID], references: [id])
+  creatorID        String
+  modified         Float             @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+  created          Float             @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+  workoutExercises WorkoutExercise[]
+
+  @@map("exercise")
+}
+
+model Workout {
+  id        String  @id
+  name      String?
+  notes     String?
+  creatorID String
+  modified  Float   @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+  created   Float   @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+
+  creator          User              @relation(fields: [creatorID], references: [id])
+  workoutExercises WorkoutExercise[]
+
+  @@map("workout")
+}
+
+model WorkoutExercise {
+  id         String  @id
+  workoutID  String?
+  exerciseID String?
+
+  workout      Workout?      @relation(fields: [workoutID], references: [id], onDelete: Cascade)
+  exercise     Exercise?     @relation(fields: [exerciseID], references: [id], onDelete: Cascade)
+  exerciseSets ExerciseSet[]
+
+  @@map("workoutExercise")
+}
+
+model ExerciseSet {
+  id                String @id
+  weight            Float?
+  reps              Int
+  workoutExerciseID String
+
+  workoutExercise WorkoutExercise @relation(fields: [workoutExerciseID], references: [id])
+  created         Float           @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+
+  @@map("exerciseSet")
+}

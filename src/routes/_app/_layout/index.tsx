@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Button } from '~/components/ui/button'
 import { ScrollArea } from '~/components/ui/scroll-area'
+import { AddRoutineDrawer } from '~/features/routine/components/add-routine-drawer'
 
 export const Route = createFileRoute('/_app/_layout/')({
 	component: HomeComponent,
@@ -20,7 +21,7 @@ function HomeComponent() {
 
 						<section>
 							<h2 className="text-2xl font-bold mb-4">Routines</h2>
-							<Button className="w-full">Add Routine</Button>
+							<AddRoutineDrawer />
 						</section>
 					</main>
 				</ScrollArea>

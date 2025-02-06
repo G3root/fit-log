@@ -1,10 +1,206 @@
 {
-  "permissions": {},
+  "permissions": {
+    "user": {
+      "row": {
+        "insert": [],
+        "update": {
+          "preMutation": []
+        },
+        "delete": []
+      }
+    },
+    "exercise": {
+      "row": {
+        "select": [
+          [
+            "allow",
+            {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "simple",
+                  "left": {
+                    "type": "static",
+                    "anchor": "authData",
+                    "field": "sub"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value": null
+                  },
+                  "op": "IS NOT"
+                },
+                {
+                  "type": "simple",
+                  "left": {
+                    "type": "column",
+                    "name": "creatorID"
+                  },
+                  "right": {
+                    "type": "static",
+                    "anchor": "authData",
+                    "field": "sub"
+                  },
+                  "op": "="
+                }
+              ]
+            }
+          ]
+        ],
+        "insert": [
+          [
+            "allow",
+            {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "simple",
+                  "left": {
+                    "type": "static",
+                    "anchor": "authData",
+                    "field": "sub"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value": null
+                  },
+                  "op": "IS NOT"
+                },
+                {
+                  "type": "simple",
+                  "left": {
+                    "type": "column",
+                    "name": "creatorID"
+                  },
+                  "right": {
+                    "type": "static",
+                    "anchor": "authData",
+                    "field": "sub"
+                  },
+                  "op": "="
+                }
+              ]
+            }
+          ]
+        ],
+        "update": {
+          "preMutation": [
+            [
+              "allow",
+              {
+                "type": "and",
+                "conditions": [
+                  {
+                    "type": "simple",
+                    "left": {
+                      "type": "static",
+                      "anchor": "authData",
+                      "field": "sub"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value": null
+                    },
+                    "op": "IS NOT"
+                  },
+                  {
+                    "type": "simple",
+                    "left": {
+                      "type": "column",
+                      "name": "creatorID"
+                    },
+                    "right": {
+                      "type": "static",
+                      "anchor": "authData",
+                      "field": "sub"
+                    },
+                    "op": "="
+                  }
+                ]
+              }
+            ]
+          ],
+          "postMutation": [
+            [
+              "allow",
+              {
+                "type": "and",
+                "conditions": [
+                  {
+                    "type": "simple",
+                    "left": {
+                      "type": "static",
+                      "anchor": "authData",
+                      "field": "sub"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value": null
+                    },
+                    "op": "IS NOT"
+                  },
+                  {
+                    "type": "simple",
+                    "left": {
+                      "type": "column",
+                      "name": "creatorID"
+                    },
+                    "right": {
+                      "type": "static",
+                      "anchor": "authData",
+                      "field": "sub"
+                    },
+                    "op": "="
+                  }
+                ]
+              }
+            ]
+          ]
+        },
+        "delete": [
+          [
+            "allow",
+            {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "simple",
+                  "left": {
+                    "type": "static",
+                    "anchor": "authData",
+                    "field": "sub"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value": null
+                  },
+                  "op": "IS NOT"
+                },
+                {
+                  "type": "simple",
+                  "left": {
+                    "type": "column",
+                    "name": "creatorID"
+                  },
+                  "right": {
+                    "type": "static",
+                    "anchor": "authData",
+                    "field": "sub"
+                  },
+                  "op": "="
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    }
+  },
   "schema": {
     "version": 1,
     "tables": {
-      "exercise": {
-        "name": "exercise",
+      "user": {
+        "name": "user",
         "columns": {
           "id": {
             "type": "string",
@@ -12,6 +208,16 @@
             "customType": null
           },
           "name": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "githubID": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "plan": {
             "type": "string",
             "optional": false,
             "customType": null
@@ -31,21 +237,31 @@
           "id"
         ]
       },
-      "workoutExercise": {
-        "name": "workoutExercise",
+      "exercise": {
+        "name": "exercise",
         "columns": {
           "id": {
             "type": "string",
             "optional": false,
             "customType": null
           },
-          "workoutID": {
+          "name": {
             "type": "string",
             "optional": false,
             "customType": null
           },
-          "exerciseID": {
+          "creatorID": {
             "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "modified": {
+            "type": "number",
+            "optional": false,
+            "customType": null
+          },
+          "created": {
+            "type": "number",
             "optional": false,
             "customType": null
           }
@@ -92,6 +308,29 @@
           "id"
         ]
       },
+      "workoutExercise": {
+        "name": "workoutExercise",
+        "columns": {
+          "id": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "workoutID": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "exerciseID": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          }
+        },
+        "primaryKey": [
+          "id"
+        ]
+      },
       "exerciseSet": {
         "name": "exerciseSet",
         "columns": {
@@ -100,14 +339,14 @@
             "optional": false,
             "customType": null
           },
-          "reps": {
+          "weight": {
             "type": "number",
             "optional": true,
             "customType": null
           },
-          "weight": {
+          "reps": {
             "type": "number",
-            "optional": true,
+            "optional": false,
             "customType": null
           },
           "workoutExerciseID": {
@@ -124,60 +363,36 @@
         "primaryKey": [
           "id"
         ]
-      },
-      "user": {
-        "name": "user",
-        "columns": {
-          "id": {
-            "type": "string",
-            "optional": false,
-            "customType": null
-          },
-          "plan": {
-            "type": "string",
-            "optional": false,
-            "customType": null
-          },
-          "modified": {
-            "type": "number",
-            "optional": false,
-            "customType": null
-          },
-          "created": {
-            "type": "number",
-            "optional": false,
-            "customType": null
-          }
-        },
-        "primaryKey": [
-          "id"
-        ]
       }
     },
     "relationships": {
-      "workout": {
-        "labels": [
+      "user": {
+        "workouts": [
           {
             "sourceField": [
               "id"
             ],
             "destField": [
-              "workoutID"
+              "creatorID"
             ],
-            "destSchema": "workoutExercise",
+            "destSchema": "workout",
             "cardinality": "many"
-          },
+          }
+        ],
+        "Exercise": [
           {
             "sourceField": [
-              "exerciseID"
+              "id"
             ],
             "destField": [
-              "id"
+              "creatorID"
             ],
             "destSchema": "exercise",
             "cardinality": "many"
           }
-        ],
+        ]
+      },
+      "exercise": {
         "creator": [
           {
             "sourceField": [
@@ -189,10 +404,72 @@
             "destSchema": "user",
             "cardinality": "one"
           }
+        ],
+        "workoutExercises": [
+          {
+            "sourceField": [
+              "id"
+            ],
+            "destField": [
+              "exerciseID"
+            ],
+            "destSchema": "workoutExercise",
+            "cardinality": "many"
+          }
+        ]
+      },
+      "workout": {
+        "creator": [
+          {
+            "sourceField": [
+              "creatorID"
+            ],
+            "destField": [
+              "id"
+            ],
+            "destSchema": "user",
+            "cardinality": "one"
+          }
+        ],
+        "workoutExercises": [
+          {
+            "sourceField": [
+              "id"
+            ],
+            "destField": [
+              "workoutID"
+            ],
+            "destSchema": "workoutExercise",
+            "cardinality": "many"
+          }
         ]
       },
       "workoutExercise": {
-        "createdIssues": [
+        "workout": [
+          {
+            "sourceField": [
+              "workoutID"
+            ],
+            "destField": [
+              "id"
+            ],
+            "destSchema": "workout",
+            "cardinality": "one"
+          }
+        ],
+        "exercise": [
+          {
+            "sourceField": [
+              "exerciseID"
+            ],
+            "destField": [
+              "id"
+            ],
+            "destSchema": "exercise",
+            "cardinality": "one"
+          }
+        ],
+        "exerciseSets": [
           {
             "sourceField": [
               "id"
@@ -202,6 +479,20 @@
             ],
             "destSchema": "exerciseSet",
             "cardinality": "many"
+          }
+        ]
+      },
+      "exerciseSet": {
+        "workoutExercise": [
+          {
+            "sourceField": [
+              "workoutExerciseID"
+            ],
+            "destField": [
+              "id"
+            ],
+            "destSchema": "workoutExercise",
+            "cardinality": "one"
           }
         ]
       }
