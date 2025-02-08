@@ -2,6 +2,7 @@ import { ZeroProvider } from '@rocicorp/zero/react'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { useCallback, useSyncExternalStore } from 'react'
+import { Providers } from '~/components/providers'
 import { zeroRef } from '~/lib/zero-setup'
 
 export const Route = createRootRoute({
@@ -18,9 +19,11 @@ function RootComponent() {
 		return null
 	}
 	return (
-		<ZeroProvider zero={z}>
-			<Outlet />
-			<TanStackRouterDevtools position="bottom-right" />
-		</ZeroProvider>
+		<Providers>
+			<ZeroProvider zero={z}>
+				<Outlet />
+				<TanStackRouterDevtools position="bottom-right" />
+			</ZeroProvider>
+		</Providers>
 	)
 }

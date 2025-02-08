@@ -1,27 +1,21 @@
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { nanoid } from 'nanoid'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import * as v from 'valibot'
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from '~/components/ui/form'
-import { Input } from '~/components/ui/input'
+import { FieldError, FieldGroup, Input, Label } from '~/components/ui/field'
+import { Form } from '~/components/ui/form'
+import { TextField } from '~/components/ui/text-field'
 import { useZero } from '~/hooks/use-zero'
 
 const FormSchema = v.object({
-	name: v.string(),
+	name: v.pipe(v.string(), v.nonEmpty('name is required')),
 })
 
 type TFormSchema = v.InferOutput<typeof FormSchema>
 
 export function AddExerciseForm() {
 	const z = useZero()
-	const form = useForm<TFormSchema>({
+	const { control, handleSubmit } = useForm<TFormSchema>({
 		resolver: valibotResolver(FormSchema),
 		defaultValues: {
 			name: '',
@@ -29,34 +23,44 @@ export function AddExerciseForm() {
 	})
 
 	return (
-		<Form {...form}>
-			<form
-				id="add-exercise-form"
-				onSubmit={form.handleSubmit(async (data) => {
-					await z.mutate.exercise.insert({
-						id: nanoid(32),
-						name: data.name,
-						created: Date.now(),
-						modified: Date.now(),
-						creatorID: z.userID,
-					})
-				})}
-			>
-				<FormField
-					control={form.control}
-					name="name"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Name</FormLabel>
-							<FormControl>
-								<Input {...field} />
-							</FormControl>
+		<Form
+			id="add-exercise-form"
+			onSubmit={handleSubmit(async (data) => {
+				await z.mutate.exercise.insert({
+					id: nanoid(32),
+					name: data.name,
+					created: Date.now(),
+					modified: Date.now(),
+					creatorID: z.userID,
+				})
+			})}
+		>
+			<Controller
+				control={control}
+				name="name"
+				render={({
+					field: { name, value, onChange, onBlur, ref },
+					fieldState: { invalid, error },
+				}) => (
+					<TextField
+						name={name}
+						value={value}
+						onChange={onChange}
+						onBlur={onBlur}
+						isRequired
+						validationBehavior="aria"
+						isInvalid={invalid}
+					>
+						<Label>Name</Label>
 
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-			</form>
+						<FieldGroup isInvalid={!!error?.message}>
+							{/* biome-ignore lint/suspicious/noExplicitAny: <explanation> */}
+							<Input ref={ref as any} />
+						</FieldGroup>
+						<FieldError>{error?.message}</FieldError>
+					</TextField>
+				)}
+			/>
 		</Form>
 	)
 }

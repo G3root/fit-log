@@ -1,14 +1,5 @@
 {
   "permissions": {
-    "user": {
-      "row": {
-        "insert": [],
-        "update": {
-          "preMutation": []
-        },
-        "delete": []
-      }
-    },
     "exercise": {
       "row": {
         "select": [
@@ -561,6 +552,11 @@
           "name": {
             "type": "string",
             "optional": false,
+            "customType": null
+          },
+          "note": {
+            "type": "string",
+            "optional": true,
             "customType": null
           },
           "creatorID": {

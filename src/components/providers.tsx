@@ -4,7 +4,6 @@ import {
 	useRouter,
 } from '@tanstack/react-router'
 import { RouterProvider } from 'react-aria-components'
-import { LoginProvider } from './login-provider'
 import { ThemeProvider } from './theme-provider'
 
 declare module 'react-aria-components' {
@@ -17,15 +16,13 @@ declare module 'react-aria-components' {
 export function Providers({ children }: { children: React.ReactNode }) {
 	const router = useRouter()
 	return (
-		<LoginProvider>
-			<RouterProvider
-				navigate={(to, options) => router.navigate({ to, ...options })}
-				useHref={(to) => router.buildLocation({ to }).href}
-			>
-				<ThemeProvider defaultTheme="system" storageKey="ui-theme">
-					{children}
-				</ThemeProvider>
-			</RouterProvider>
-		</LoginProvider>
+		<RouterProvider
+			navigate={(to, options) => router.navigate({ to, ...options })}
+			useHref={(to) => router.buildLocation({ to }).href}
+		>
+			<ThemeProvider defaultTheme="system" storageKey="ui-theme">
+				{children}
+			</ThemeProvider>
+		</RouterProvider>
 	)
 }

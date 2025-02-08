@@ -23,15 +23,15 @@ const permissions = definePermissions<AuthData, Schema>(schema, () => {
 		eb.and(userIsLoggedIn(authData, eb), eb.cmp('creatorID', '=', authData.sub))
 
 	return {
-		user: {
-			row: {
-				insert: NOBODY_CAN,
-				update: {
-					preMutation: NOBODY_CAN,
-				},
-				delete: NOBODY_CAN,
-			},
-		},
+		// user: {
+		// 	row: {
+		// 		insert: NOBODY_CAN,
+		// 		update: {
+		// 			preMutation: NOBODY_CAN,
+		// 		},
+		// 		delete: NOBODY_CAN,
+		// 	},
+		// },
 		exercise: {
 			row: {
 				insert: [

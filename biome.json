@@ -24,6 +24,9 @@
 			"recommended": true,
 			"correctness": {
 				"useExhaustiveDependencies": "warn"
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "off"
 			}
 		},
 		"ignore": ["./src/routeTree.gen.ts", "./src/generated/**"]
