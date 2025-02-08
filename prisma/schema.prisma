@@ -20,14 +20,14 @@ datasource db {
 }
 
 model User {
-  id       String     @id
-  name     String?
-  githubID String?
-  plan     String     @default("free")
-  modified Float      @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
-  created  Float      @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
-  workouts Workout[]
-  Exercise Exercise[]
+  id        String     @id
+  name      String?
+  githubID  String?
+  plan      String     @default("free")
+  modified  Float      @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+  created   Float      @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+  workouts  Workout[]
+  exercises Exercise[]
 
   @@map("user")
 }

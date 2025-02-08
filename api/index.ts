@@ -1,3 +1,4 @@
+import { Checkout, Webhooks } from '@polar-sh/hono'
 import { PrismaClient, type User } from '@prisma/client'
 import * as arctic from 'arctic'
 import { Hono } from 'hono'
@@ -34,6 +35,11 @@ const JWT_CONFIG = {
 	authTokenExpiry: '30days',
 } as const
 
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const POLAR_SECRET = process.env.POLAR_WEBHOOK_SECRET!
+
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const POLAR_ACCESS_TOKEN = process.env.POLAR_ACCESS_TOKEN!
 const SECRET = new TextEncoder().encode(process.env.ZERO_AUTH_SECRET)
 const GITHUB_CONFIG = {
 	clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -216,5 +222,56 @@ app.post('/upgrade', authMiddleware, async (c) => {
 		)
 	}
 })
+
+app.post(
+	'/polar/webhooks',
+	Webhooks({
+		webhookSecret: POLAR_SECRET,
+		onPayload: async (payload) => {
+			switch (payload.type) {
+				// Checkout has been created
+				case 'checkout.created':
+					payload.data.currency
+					break
+
+				// Checkout has been updated - this will be triggered when checkout status goes from confirmed -> succeeded
+				case 'checkout.updated':
+					break
+
+				// Subscription has been created
+				case 'subscription.created':
+					break
+
+				// A catch-all case to handle all subscription webhook events
+				case 'subscription.updated':
+					break
+
+				// Subscription has been activated
+				case 'subscription.active':
+					break
+
+				// Subscription has been revoked/peroid has ended with no renewal
+				case 'subscription.revoked':
+					break
+
+				// Subscription has been explicitly canceled by the user
+				case 'subscription.canceled':
+					break
+
+				default:
+					console.log(`Unhandled event type ${payload.type}`)
+			}
+		},
+	}),
+)
+
+app.get(
+	'/checkout',
+	Checkout({
+		accessToken: POLAR_ACCESS_TOKEN,
+		successUrl: '/confirmation',
+		server: 'sandbox',
+	}),
+)
 
 export default handle(app)
