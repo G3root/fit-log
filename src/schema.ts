@@ -1,5 +1,4 @@
 import {
-	type Condition,
 	type ExpressionBuilder,
 	NOBODY_CAN,
 	definePermissions,
@@ -25,7 +24,6 @@ const permissions = definePermissions<AuthData, Schema>(schema, () => {
 
 	return {
 		user: {
-			// Only the authentication system can write to the user table.
 			row: {
 				insert: NOBODY_CAN,
 				update: {
@@ -41,6 +39,17 @@ const permissions = definePermissions<AuthData, Schema>(schema, () => {
 					// other than the user doing the creating
 					loggedInUserIsCreator,
 				],
+				update: {
+					preMutation: [loggedInUserIsCreator],
+					postMutation: [loggedInUserIsCreator],
+				},
+				delete: [loggedInUserIsCreator],
+				select: [loggedInUserIsCreator],
+			},
+		},
+		routine: {
+			row: {
+				insert: [loggedInUserIsCreator],
 				update: {
 					preMutation: [loggedInUserIsCreator],
 					postMutation: [loggedInUserIsCreator],

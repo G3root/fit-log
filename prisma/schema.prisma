@@ -28,6 +28,7 @@ model User {
   created   Float      @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
   workouts  Workout[]
   exercises Exercise[]
+  routines  Routine[]
 
   @@map("user")
 }
@@ -40,6 +41,7 @@ model Exercise {
   modified         Float             @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
   created          Float             @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
   workoutExercises WorkoutExercise[]
+  routineExercises RoutineExercise[]
 
   @@map("exercise")
 }
@@ -80,4 +82,39 @@ model ExerciseSet {
   created         Float           @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
 
   @@map("exerciseSet")
+}
+
+model Routine {
+  id        String  @id
+  name      String
+  note      String?
+  creatorID String
+  created   Float   @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
+
+  creator          User              @relation(fields: [creatorID], references: [id])
+  routineExercises RoutineExercise[]
+
+  @@map("routine")
+}
+
+model RoutineExercise {
+  id         String @id
+  routineID  String
+  exerciseID String
+
+  routine     Routine      @relation(fields: [routineID], references: [id])
+  exercise    Exercise     @relation(fields: [exerciseID], references: [id])
+  routineSets RoutineSet[]
+
+  @@map("routineExercise")
+}
+
+model RoutineSet {
+  id                String @id
+  weight            Float?
+  reps              Int
+  routineExerciseID String
+
+  routineExercise RoutineExercise @relation(fields: [routineExerciseID], references: [id])
+  created         Float           @default(dbgenerated("EXTRACT(EPOCH FROM CURRENT_TIMESTAMP) * 1000"))
 }
