@@ -1,8 +1,8 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import ReactDOM from 'react-dom/client'
-import { LoginProvider } from './components/login-provider'
 import { routeTree } from './routeTree.gen'
 import './main.css'
+import { Providers } from './components/providers'
 
 // Set up a Router instance
 const router = createRouter({
@@ -23,8 +23,8 @@ const rootElement = document.getElementById('app')!
 if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement)
 	root.render(
-		<LoginProvider>
+		<Providers>
 			<RouterProvider router={router} />
-		</LoginProvider>,
+		</Providers>,
 	)
 }

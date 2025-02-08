@@ -25,6 +25,10 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.2",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.0.1",
+    "tailwind-variants": "^0.3.1",
+    "tailwindcss-animate": "^1.0.7",
     "vite": "^6.0.3"
   },
   "dependencies": {
@@ -41,7 +45,6 @@
     "@tanstack/router-devtools": "^1.98.4",
     "arctic": "^3.2.2",
     "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",
     "dotenv": "^16.4.7",
@@ -56,9 +59,7 @@
     "react-aria-components": "^1.6.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
-    "tailwind-merge": "^3.0.1",
     "tailwindcss": "^4.0.1",
-    "tailwindcss-animate": "^1.0.7",
     "valibot": "1.0.0-beta.14",
     "vaul": "^1.1.2",
     "vite-tsconfig-paths": "^5.1.4"

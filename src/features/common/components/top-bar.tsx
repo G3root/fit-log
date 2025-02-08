@@ -22,14 +22,14 @@ function LoginButton() {
 
 	return (
 		<Button
-			onClick={() => {
+			onPress={() => {
 				setSyncData(z)
 				window.location.href = '/api/login/github'
 			}}
-			variant="ghost"
-			size="icon"
+			size="square-petite"
+			appearance="outline"
 		>
-			<RotateCcw className="h-6 w-6 text-blue-500" />
+			<RotateCcw className="h-3 w-3 text-blue-500" />
 		</Button>
 	)
 }
@@ -40,7 +40,7 @@ function UpgradeButton() {
 
 	return (
 		<Button
-			onClick={async () => {
+			onPress={async () => {
 				const req = await fetch('/api/upgrade', {
 					method: 'POST',
 					headers: {
@@ -54,8 +54,6 @@ function UpgradeButton() {
 					window.location.reload()
 				}
 			}}
-			variant="ghost"
-			size="icon"
 		>
 			upgrade
 		</Button>
